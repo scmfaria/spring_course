@@ -1,0 +1,1 @@
+This is a project for studies with Spring Boot
