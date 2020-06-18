@@ -7,24 +7,59 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.course.api.domain.model.Client;
+import com.spring.course.api.domain.repository.ClientRepository;
 
 @RestController
+@RequestMapping("/clients")
 public class ClientController {
 
-    @GetMapping("/clientes")
+    @Autowired
+    private ClientRepository clientRepository;
+
+    @GetMapping
     public List<Client> list() {
-        var client1 = new Client();
-        client1.setId(1L);
-        client1.setName("Joao");
-        client1.setEmail("joao@joao.com.br");
-        client1.setPhone("16 999998888");
+         return clientRepository.findAll();
+    }
 
-        var client2 = new Client();
-        client2.setId(2L);
-        client2.setName("Maria");
-        client2.setEmail("maria@maria.com.br");
-        client2.setPhone("16 555552222");
+    @GetMapping("/{clientId}")
+    public ResponseEntity<Client> search(@PathVariable Long clientId) {
+        Optional<Client> client = clientRepository.findById(clientId);
 
-        return Arrays.asList(client1, client2);
+        if(client.isPresent()) {
+            return ResponseEntity.ok(client.get());
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Cliente add(@Valid @RequestBody Client client) {
+        return clientRepository.save(client);
+    }
+
+    @PutMapping("/{clientId}")
+    public ResponseEntity<Client> update(@Valid @PathVariable Long clientId, @RequestBody Client client) {
+
+        if(!clientRepository.existsById(clientId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        client.setId(clientId);
+        client = clientRepository.save(client);
+
+        return ResponseEntity.ok(client);
+    }
+
+    @DeleteMapping("/{clientId}")
+    public ResponseEntity<Void> delete(@PathVariable Long clientId) {
+
+        if(!clientRepository.existsById(clientId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        clientRepository.deleteById(clientId);
+
+        return ResponseEntity.noContent().build();
     }
 }

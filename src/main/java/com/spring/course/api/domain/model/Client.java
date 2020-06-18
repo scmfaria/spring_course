@@ -1,17 +1,28 @@
 package com.spring.course.api.domain.model;
 
+@Entity
 public class Client {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name")
+    @Notblank
     private String name;
+
+    @Email
+    @Notblank
     private String email;
+
+    @Notblank
     private String phone;
 
     public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
