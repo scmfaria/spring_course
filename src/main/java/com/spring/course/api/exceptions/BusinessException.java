@@ -1,4 +1,4 @@
-package com.spring.course.api.exceptions.BusinessException;
+package com.spring.course.api.exceptions;
 
 public class BusinessException extends RuntimeException {
 

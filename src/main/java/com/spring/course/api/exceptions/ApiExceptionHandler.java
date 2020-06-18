@@ -1,4 +1,4 @@
-package com.spring.course.api.exceptions.ApiExceptionHandler;
+package com.spring.course.api.exceptions;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
