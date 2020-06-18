@@ -16,6 +16,9 @@ public class ClientController {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private CreateClientService clientService;
+
     @GetMapping
     public List<Client> list() {
          return clientRepository.findAll();
@@ -35,7 +38,7 @@ public class ClientController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente add(@Valid @RequestBody Client client) {
-        return clientRepository.save(client);
+        return clientService.save(client);
     }
 
     @PutMapping("/{clientId}")
@@ -46,7 +49,7 @@ public class ClientController {
         }
 
         client.setId(clientId);
-        client = clientRepository.save(client);
+        client = clientService.save(client);
 
         return ResponseEntity.ok(client);
     }
@@ -58,7 +61,7 @@ public class ClientController {
             return ResponseEntity.notFound().build();
         }
 
-        clientRepository.deleteById(clientId);
+        clientService.deleteById(clientId);
 
         return ResponseEntity.noContent().build();
     }

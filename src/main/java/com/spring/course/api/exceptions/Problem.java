@@ -2,6 +2,7 @@ package com.spring.course.api.exceptions.Problem;
 
 import java.time.LocalDateTime;
 
+@JsonInclude(Include.NON_NULL)
 public class Problem {
 
     private Integer status;

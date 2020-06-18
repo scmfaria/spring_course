@@ -7,15 +7,30 @@ import org.springframework.http.ResponseEntity;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
+    @Autowired
+    private MessageSource messageSource;
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<Object> handleBusiness(BusinessException ex, WebRequest request) {
+        var status = HttpStatus.BAD_REQUEST;
+
+        var problem = new Problem();
+        problem.setStatus(status.value());
+        problem.setDateHour(LocalDateTime.now());
+        problem.setTitle(ex.getMessage());
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, 
         HttpHeader headers, HttpStatus status, WebRequest request) {
 
-        var problema = new Problema();
-        problema.setStatus(status.value());
-        problema.setTitle("Um ou mais campos estão invalidos");
-        problema.setDateHour(LocalDateTime.now());
+        var problem = new Problem();
+        problem.setStatus(status.value());
+        problem.setTitle("Um ou mais campos estão invalidos. Verifique-os e tente novamente");
+        problem.setDateHour(LocalDateTime.now());
 
-        return super.handleExceptionInternal(ex, problema, headers, status, request);
+        return super.handleExceptionInternal(ex, problem, headers, status, request);
     }
 }
