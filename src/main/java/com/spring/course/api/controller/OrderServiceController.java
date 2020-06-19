@@ -21,6 +21,12 @@ public class OrderServiceController {
         return toModel(orderService.create(order));
     }
 
+    @PutMapping("/{orderServiceId}/finish")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void finish(Long orderServiceId) {
+        orderService.finishOrder(orderServiceId);
+    }
+
     @GetMapping
     public List<OrderService> list() {
         return toCollectionModel(serviceRepository.findAll());

@@ -10,6 +10,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Object> handleNotFound(NotFoundException ex, WebRequest request) {
+        var status = HttpStatus.NOT_FOUND;
+
+        var problem = new Problem();
+        problem.setStatus(status.value());
+        problem.setDateHour(LocalDateTime.now());
+        problem.setTitle(ex.getMessage());
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<Object> handleBusiness(BusinessException ex, WebRequest request) {
         var status = HttpStatus.BAD_REQUEST;

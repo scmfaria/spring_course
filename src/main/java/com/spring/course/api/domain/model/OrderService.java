@@ -30,6 +30,9 @@ public class OrderService {
     @JsonProperty(access = Access.READ_ONLY)
     private LocalDateTime dateFinish;
 
+    @OneToMany(mappedBy = "orderService")
+    private List<Comment> comments = new ArrayList<>();
+
     public Long getId() {
         return id;
     }
@@ -84,5 +87,13 @@ public class OrderService {
 
     public void setDateFinish(LocalDateTime dateFinish) {
         this.dateFinish = dateFinish;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
     }
 }
