@@ -1,33 +1,17 @@
-package com.spring.course.api.domain.model;
+package com.spring.course.api.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-public class OrderService {
+// é a representation model, é a forma como vai aparecer no postman 
+public class OrderServiceModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    @ManyToOne
-    private Client client;
-
-    @NotBlank
+    private String clientName;
     private String description;
-
-    @NotNull
     private BigDecimal price;
-
-    @Enumerated(EnumType.STRING)
-    @JsonProperty(access = Access.READ_ONLY)
     private StatusOrderService status;
-
-    @JsonProperty(access = Access.READ_ONLY)
     private LocalDateTime dateOpen;
-
-    @JsonProperty(access = Access.READ_ONLY)
     private LocalDateTime dateFinish;
 
     public Long getId() {
@@ -38,12 +22,12 @@ public class OrderService {
         this.id = id;
     }
 
-    public Client getClient() {
-        return client;
+    public String getClientName() {
+        return clientName;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClientName(Client clientName) {
+        this.clientName = clientName;
     }
 
     public String getDescription() {
