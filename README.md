@@ -1,4 +1,4 @@
-This is a project for studies with Spring Boot
+Project for customer and service order management using Spring Boot API backend
 
 ### In this project contains:
 
